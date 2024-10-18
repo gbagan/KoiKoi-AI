@@ -60,7 +60,7 @@ class KoiKoiRoundStateBase():
         self.collect = []
         
         self.turn_16 = 1
-        self.dealer = random.randint(1,2) if dealer==None else dealer
+        self.dealer = 2 # random.randint(1,2) if dealer==None else dealer
         self.koikoi = {1:[0,0,0,0,0,0,0,0], 2:[0,0,0,0,0,0,0,0]}
         self.winner = None
         self.exhausted = False
@@ -135,13 +135,17 @@ class KoiKoiRoundStateBase():
         # action
         while True:
             card = [[ii+1,jj+1] for ii in range(12) for jj in range (4)]
-            random.shuffle(card)
+            c = card.pop(0)
+            card.append(c)
+            print(card)
+            #random.shuffle(card) # todo
             self.hand[1] = sorted(card[0:8])
             self.hand[2] = sorted(card[8:16])
             self.field_slot = sorted(card[16:24])+[[0,0] for _ in range(10)]
             self.stock = card[24:]
             # check hand-4 and board-4          
             flag = True
+            break
             for suit in range(1,13):
                 if 4 in [[card[0] for card in self.hand[1]].count(suit),
                          [card[0] for card in self.hand[2]].count(suit),
@@ -636,7 +640,7 @@ class KoiKoiRoundState(KoiKoiRoundStateBase):
         f_dict['CardInBoard'] = card_to_multi_hot(self.log['basic']['initBoard'])
         f_dict['CardUnseen'] = card_to_multi_hot(self.unseen_card[self.turn_player])
         f_array = np.vstack([value for key,value in f_dict.items()])
-        return f_array    
+        return f_array
     
     @property
     def card_current_position_array(self):

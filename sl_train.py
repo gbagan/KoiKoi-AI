@@ -37,7 +37,7 @@ class KoiKoiSLDataset(data.Dataset):
             self.data.append(sample)
             if (ii+1) % 1000 == 0:
                 print(f'{ii+1} samples loaded...')
-        print(f'All {ii+1} samples loaded over!')
+        #print(f'All {ii+1} samples loaded over!')
     
     def __getitem__(self, index):
         sample = self.data[index]
@@ -123,9 +123,6 @@ class KoiKoiSLTrainer():
 
 
 if __name__ == '__main__':
-    pass
-    
-    '''
     task_name = 'discard'
     dataset_path = f'dataset/{task_name}/'
     net_model = {'discard':DiscardModel,'pick':PickModel,'koikoi':KoiKoiModel}[task_name]
@@ -135,4 +132,3 @@ if __name__ == '__main__':
     trainer.init_dataset(dataset_path, k_fold=5, test_fold=0, batch_size=512)
     trainer.init_model(net_model, trained_model_path)
     trainer.train(epoch_num=20)
-    '''

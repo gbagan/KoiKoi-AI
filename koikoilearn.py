@@ -49,10 +49,10 @@ class Agent():
                 return False
             if end_point >= 60:
                 return False
-        if p > self.random_action_prob[game_state.round_state.state]:
-            return self.auto_definitely_action(game_state, use_mask)
-        else:
-            return self.auto_random_action(game_state)
+        #if p > self.random_action_prob[game_state.round_state.state]:
+        return self.auto_definitely_action(game_state, use_mask)
+        #else:
+        return self.auto_random_action(game_state)
     
     def auto_definitely_action(self, game_state, use_mask=True):
         action_output = None
@@ -152,6 +152,7 @@ class AgentForTest():
     def __predict(self, state, feature, mask):
         output = self.model[state](feature).squeeze(0).detach().numpy()
         output = np.exp(output/10.0) * mask
+        print(output)
         action_output = self.action_dict[state][output.argmax()]        
         return action_output
     
@@ -194,4 +195,4 @@ class AgentForTest():
                 action_output = random.choice(game_state.round_state.pairing_card)
             elif state == 'koikoi':
                 action_output = random.choice([True, False])
-        return action_output      
+        return action_output
